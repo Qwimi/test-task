@@ -5,26 +5,23 @@
             <circle class="progress-bar__path" fill="none" stroke-linecap="round" :stroke-width="size.strokeWidth"
                 :r="radius" :cx="cx" :cy="cx" :stroke-dasharray="dasharray" />
             <circle v-show="props.value" class="progress-bar__progress" fill="none" stroke-linecap="round"
-                :stroke-width="size.strokeWidth" :r="radius" :cx="cx" :cy="cx" :stroke-dasharray="progresssDasharray" />
+                :stroke-width="size.strokeWidth" :r="radius" :cx="cx" :cy="cx" :stroke-dasharray="progressDasharray" />
         </svg>
 
-        <span class="progress-bar__label" v-html="label"></span>
+        <Transition name="fade" mode="out-in">
+            <span class="progress-bar__label" v-html="label" :key="label"></span>
+        </Transition>
     </div>
 </template>
 
 <script setup lang="ts">
+import type { Range } from '@/types';
 import { computed } from 'vue';
 
-type Enumerate<N extends number, Acc extends number[] = []> =
-    Acc['length'] extends N
-    ? Acc[number]
-    : Enumerate<N, [...Acc, Acc['length']]>;
-
-type Range<F extends number, T extends number> = Exclude<Enumerate<T | (T extends F ? never : F)>, Enumerate<F>>;
 
 interface ProgrssProps {
     type?: 'dashboard' | 'ordinary'
-    value: Range<0, 100>
+    value: Range<0, 101>
     size?: {
         height: number
         strokeWidth: number
@@ -47,9 +44,13 @@ const props = withDefaults(defineProps<ProgrssProps>(),
 const cx = computed(() => props.size.height / 2)
 const radius = computed(() => props.size.height / 2 - props.size.strokeWidth)
 const dasharray = computed(() => 2 * Math.PI * radius.value * (props.type === 'ordinary' ? 1 : 0.75))
-const stepSize = computed(() => dasharray.value / 100)
 const viewBox = computed(() => `0 0 ${props.size.height} ${props.size.height}`)
-const progresssDasharray = computed(() => `${stepSize.value * props.value}  ${dasharray.value * 2 - (stepSize.value * props.value)}`)
+//  умножаем dasharray на 2 на случай, если окружность не полная (тип диаграммы dashboard) 
+// и у нас не появлялся второй dash
+const progressDasharray = computed(() => {
+    const progress = dasharray.value / 100 * props.value
+    return `${progress} ${dasharray.value * 2}`
+})
 
 const label = computed(() => {
     switch (props.status) {
@@ -70,6 +71,7 @@ const label = computed(() => {
     position: relative;
     height: fit-content;
     width: fit-content;
+    transition: color $animation-duration-base;
 
     &__label {
         position: absolute;
@@ -85,6 +87,8 @@ const label = computed(() => {
 
     &__progress {
         stroke: currentColor;
+        ;
+        transition: stroke-dasharray $animation-duration-base ease;
     }
 
     &--progress {
