@@ -5,6 +5,7 @@ import type { Range } from '@/types';
 import ModalPopup from './components/modal-popup.vue';
 import TextInput from './components/text-input.vue';
 import NumberInput from './components/number-input.vue';
+import PieChart from './components/pie-chart.vue';
 
 const progressValue = ref<Range<0, 101>>(12)
 const status = ref<"progress" | "success" | "warning" | "error">('progress')
@@ -12,6 +13,16 @@ const openPopup = ref(false)
 
 const textInput = ref('')
 const numberInput = ref(12)
+
+const pieData = ref([
+  { label: 'Red', value: 25, backgroundColor: '#FF6384' },
+  { label: 'Blue', value: 25, backgroundColor: '#36A2EB' },
+  { label: 'Yellow', value: 25, backgroundColor: '#FFCE56' }
+])
+
+const addPieItem = (label: string, value: number, backgroundColor: string) => {
+  pieData.value.push({ label, value, backgroundColor })
+}
 </script>
 
 <template>
@@ -29,22 +40,13 @@ const numberInput = ref(12)
         open popup
       </button>
     </div>
-    <TextInput v-model="textInput" placeholder="text placeholder">
-      <template #label>
-        text
-      </template>
-      <template #append-icon>
-        >
-      </template>
-      <template #prepend-icon>
-        #
-      </template>
-    </TextInput>
-    <NumberInput :min="1" :max="100" v-model="numberInput" placeholder="min 1 max 100">
-      <template #label>
-        number
-      </template>
-    </NumberInput>
+    <div style="margin-top: 20px;">
+      <TextInput v-model="textInput" placeholder="Label for new slice" />
+      <NumberInput v-model="numberInput" placeholder="Value for new slice" />
+      <button @click="addPieItem(textInput, numberInput, '#' + Math.floor(Math.random() * 16777215).toString(16))">
+        Add Pie Slice
+      </button>
+    </div>
     <div>
       <NumberInput :min="1" :max="100" v-model="progressValue" placeholder="min 1 max 100">
         <template #label>
@@ -60,6 +62,7 @@ const numberInput = ref(12)
       <ProgressCircle :value="progressValue" :status="status" />
       <ProgressCircle :value="progressValue" :status="status" type="dashboard" />
     </div>
+    <PieChart :data="pieData" />
   </div>
 </template>
 
