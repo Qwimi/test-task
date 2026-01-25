@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import ProgressCircle from './components/progress-circle.vue';
 import type { Range } from '@/types';
 import ModalPopup from './components/modal-popup.vue';
-import FormField from './components/form-field.vue';
+import TextInput from './components/text-input.vue';
+import NumberInput from './components/number-input.vue';
 
 const progressValue = ref<Range<0, 101>>(12)
 const status = ref<"progress" | "success" | "warning" | "error">('progress')
@@ -28,7 +29,7 @@ const numberInput = ref(12)
         open popup
       </button>
     </div>
-    <FormField type="text" v-model="textInput" placeholder="text placeholder">
+    <TextInput v-model="textInput" placeholder="text placeholder">
       <template #label>
         text
       </template>
@@ -38,14 +39,18 @@ const numberInput = ref(12)
       <template #prepend-icon>
         #
       </template>
-    </FormField>
-    <FormField type="number" :min="1" :max="100" v-model="numberInput" placeholder="min 1 max 100">
+    </TextInput>
+    <NumberInput :min="1" :max="100" v-model="numberInput" placeholder="min 1 max 100">
       <template #label>
         number
       </template>
-    </FormField>
+    </NumberInput>
     <div>
-      <input type="number" v-model="progressValue" min="0" max="100" />
+      <NumberInput :min="1" :max="100" v-model="progressValue" placeholder="min 1 max 100">
+        <template #label>
+          Отображаемый прогресс
+        </template>
+      </NumberInput>
       <select v-model="status">
         <option value="progress">progress</option>
         <option value="success">success</option>

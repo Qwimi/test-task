@@ -1,39 +1,30 @@
 <template>
     <label class="form-field">
-        <p class="form-field__label" v-show="slots.label || label">
-            <slot name="label">{{ label }}</slot>
+        <p v-show="$slots.label" class="form-field__label">
+            <slot name="label" />
         </p>
+
         <div class="form-field__input-row">
+
             <span class="form-field__icon" v-show="slots['prepend-icon']">
-                <slot name="prepend-icon">
-                </slot>
+                <slot name="prepend-icon" />
             </span>
-            <input v-model.trim="model" :type="type" :placeholder="placeholder" class=" form-field__input">
+
+            <slot />
+
             <span class="form-field__icon" v-show="slots['append-icon']">
-                <slot name="append-icon"></slot>
+                <slot name="append-icon" />
             </span>
         </div>
     </label>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-    type: 'text' | 'number'
-    min?: number
-    max?: number
-    placeholder?: string
-    label?: string
-}>()
-
 const slots = defineSlots<{
     label: Node[],
     'prepend-icon': Node[],
     'append-icon': Node[],
 }>()
-
-const model = defineModel()
-
-// ToDo: реализовать валидацию
 </script>
 
 <style lang="scss" scoped>
@@ -60,7 +51,7 @@ const model = defineModel()
         align-items: center;
     }
 
-    &__input {
+    :deep(.form-field__input) {
         outline: none;
         border: 0;
         flex: 1;
