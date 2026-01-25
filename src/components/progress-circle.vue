@@ -21,7 +21,7 @@ import { computed } from 'vue';
 
 interface ProgrssProps {
     type?: 'dashboard' | 'ordinary'
-    value: Range<0, 101>
+    value: Range<0, 101> | null
     size?: {
         height: number
         strokeWidth: number
@@ -61,7 +61,7 @@ const label = computed(() => {
         case 'warning':
             return '<i class="pi pi-exclamation-circle"></i>'
         default:
-            return props.value + '%'
+            return props.value ?? 0 + '%'
     }
 })
 </script>
