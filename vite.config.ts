@@ -4,11 +4,14 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+import svgLoader from 'vite-svg-loader'
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+    svgLoader({ svgo: false })
   ],
   resolve: {
     alias: {
@@ -16,13 +19,12 @@ export default defineConfig({
     },
   },
   css: {
-      preprocessorOptions: {
-          scss: {
-              additionalData: `
-                  @import "@/assets/styles/main.scss";
-                  @import "@/assets/styles/variables.scss";
-              `
-          }
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+        @use "@/assets/styles/variables.scss" as *;
+        `
       }
+    }
   }
 })

@@ -1,20 +1,17 @@
-
-@use './variables.scss' as variables;
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity variables.$animation-duration-base ease;
+  transition: opacity $animation-duration-base ease;
 }
 
 .fade-enter-from,
@@ -23,10 +20,10 @@ body {
 }
 
 input[type='number'] {
-    -moz-appearance:textfield;
+  appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
