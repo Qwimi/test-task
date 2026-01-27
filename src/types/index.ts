@@ -6,7 +6,7 @@ type CreateUnion<Max extends number, Accumulator extends number[] = []> = Accumu
 export type Range<Min extends number, Max extends number> = Exclude<CreateUnion<Max>, CreateUnion<Min>>;
 
 export interface PieSector {
-    id: string
+    id?: string
     label: string;
     value: number;
     backgroundColor: string;

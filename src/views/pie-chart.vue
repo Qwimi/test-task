@@ -1,22 +1,27 @@
 <template>
-  <div class="pie-page-container">
+  <div class="container">
     <div class="controls">
       <h1>Управление Pie Chart</h1>
-      <TextInput v-model="textInput" placeholder="Label для нового сектора" />
-      <NumberInput v-model="numberInput" placeholder="Значение" />
-      <button @click="addPieItem(
-        textInput,
-        numberInput,
-        '#' + Math.floor(Math.random() * 16777215).toString(16)
-      )">
+      <TextInput v-model="sectorForm.label" placeholder="Label для нового сектора">
+        <template #label>
+          Наименование
+        </template>
+      </TextInput>
+      <NumberInput v-model="sectorForm.value" placeholder="Значение(в %) для нового сектора">
+        <template #label>
+          Значение
+        </template>
+      </NumberInput>
+      <button @click="addSector">
         Добавить сектор
       </button>
-      <SectorList v-model:sectors="pieData" />
     </div>
-
+    {{ items }}
 
     <div class="chart-container">
-      <PieChart :data="pieData" />
+      <SectorList :sectors="items" />
+
+      <PieChart :data="items" />
     </div>
   </div>
 </template>
@@ -28,32 +33,35 @@ import TextInput from '@/components/text-input.vue'
 import NumberInput from '@/components/number-input.vue'
 import SectorList from '@/components/sector-list.vue'
 import type { PieSector } from '@/types'
+import { usePieChartStore } from '@/stores/pie-chart.store'
+import { storeToRefs } from 'pinia'
 
-const pieData = ref<PieSector[]>([
-  { id: '1', label: 'Red', value: 25, backgroundColor: '#FF6384' },
-  { id: '2', label: 'Blue', value: 25, backgroundColor: '#36A2EB' },
-  { id: '3', label: 'Yellow', value: 25, backgroundColor: '#FFCE56' }
-])
+const sectorForm = ref<PieSector>({
+  label: '',
+  value: 0,
+  backgroundColor: 'red'
+})
 
-const textInput = ref('')
-const numberInput = ref(25)
+const pieStore = usePieChartStore()
 
-const addPieItem = (label: string, value: number, backgroundColor: string) => {
-  const id = String(pieData.value.length)
-  pieData.value = [
-    ...pieData.value,
-    { id, label, value, backgroundColor }
-  ]
-}
+const { items } = storeToRefs(pieStore)
+
+const addSector = () => pieStore.addSection(sectorForm.value)
 </script>
 
-<style scoped>
-.pie-page-container {
-  max-width: 1200px;
-  margin: 50px auto;
-  display: flex;
-  flex-direction: row;
+<style lang="scss" scoped>
+.chart-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
+
+  @media (min-width: $breakpoint-tablet) {
+    gap: 64px;
+  }
+
+  @media (min-width: $breakpoint-desktop) {
+    gap: 90px;
+  }
 }
 
 .controls {
