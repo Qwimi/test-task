@@ -17,10 +17,9 @@
         Добавить сектор
       </button>
     </div>
-    {{ items }}
 
     <div class="chart-container">
-      <SectorList :sectors="items" />
+      <SectorList :sectors="items" @delete="pieStore.deleteItem" />
 
       <PieChart :data="items" />
     </div>
