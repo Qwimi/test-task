@@ -1,0 +1,54 @@
+@use './variables.scss' as *;
+
+@mixin input-styles {
+  border-radius: 10px;
+  border: 1px solid $color-light-gray;
+  background: $color-white;
+  display: flex;
+  padding: 10px 20px;
+  flex-direction: column;
+  align-items: stretch;
+  cursor: pointer;
+  transition: border-color $animation-duration-fast;
+
+  &__label {
+    color: $color-gray;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  &__input-row {
+    display: flex;
+    gap: 5px;
+    font-size: 16px;
+    line-height: 24px;
+    align-items: center;
+  }
+
+  :deep(.form-field__input) {
+    outline: none;
+    border: 0;
+    flex: 1;
+    color: $color-dark-gray;
+    font-size: inherit;
+    line-height: inherit;
+
+    &::placeholder {
+      color: $color-gray;
+    }
+  }
+
+  &__placeholder {
+    color: $color-gray;
+  }
+
+  &:has(:focus),
+  &:focus,
+  &--focus {
+    border-color: $color-blue;
+  }
+
+  &__icon {
+    color: $color-gray;
+  }
+}
