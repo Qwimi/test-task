@@ -22,7 +22,7 @@ const isPresetColor = computed(() =>
 const colorList = computed(() => ([
   ...props.colorPresets,
   {
-    value: isPresetColor.value ? color.value : null,
+    value: isPresetColor.value ? null : color.value,
     label: 'Свой вариант'
   }
 ]) as Option[])
