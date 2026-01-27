@@ -50,5 +50,9 @@
 
   &__icon {
     color: $color-gray;
+
+    &:empty {
+      display: none;
+    }
   }
 }

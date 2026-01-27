@@ -12,6 +12,7 @@
           Значение
         </template>
       </NumberInput>
+      <ColorInput v-model="sectorForm.backgroundColor" :color-presets="colorPresets" />
       <button @click="addSector">
         Добавить сектор
       </button>
@@ -35,16 +36,18 @@ import SectorList from '@/components/sector-list.vue'
 import type { PieSector } from '@/types'
 import { usePieChartStore } from '@/stores/pie-chart.store'
 import { storeToRefs } from 'pinia'
+import ColorInput from '@/components/color-input.vue'
+
+const pieStore = usePieChartStore()
+
+const { items, colorPresets } = storeToRefs(pieStore)
 
 const sectorForm = ref<PieSector>({
   label: '',
   value: 0,
-  backgroundColor: 'red'
+  backgroundColor: colorPresets.value[0]!.value
 })
 
-const pieStore = usePieChartStore()
-
-const { items } = storeToRefs(pieStore)
 
 const addSector = () => pieStore.addSection(sectorForm.value)
 </script>

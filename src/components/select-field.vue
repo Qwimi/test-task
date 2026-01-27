@@ -44,11 +44,7 @@ import { ref, computed } from 'vue'
 import FormField from './form-field.vue'
 import { onClickOutside } from '@vueuse/core'
 import SvgIcon from './svg-icon.vue'
-
-type Option = {
-  label: string
-  value: string
-}
+import type { Option } from '@/types';
 
 const props = defineProps<{
   options: Option[]

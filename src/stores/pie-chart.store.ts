@@ -1,9 +1,32 @@
 import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
-import type { PieSector } from '@/types'
+import type { ColorPreset, PieSector } from '@/types'
+import { ref } from 'vue'
 
 export const usePieChartStore = defineStore('pie-chart', () => {
     const items = useLocalStorage<PieSector[]>('pie-chart-items', [])
+    const colorPresets = ref<ColorPreset[]>([
+        {
+            value: '#7a63ff',
+            label: 'Фиолетовый'
+        },
+        {
+            value: '#1b84ff',
+            label: 'Синий'
+        },
+        {
+            value: '#12ce66',
+            label: 'Зеленый'
+        },
+        {
+            value: '#ffcd56',
+            label: 'Желтый'
+        },
+        {
+            value: '#ff4949',
+            label: 'Красный'
+        },
+    ])
 
     function addSection(sectionData: Omit<PieSector, 'id'>) {
         const id = crypto.randomUUID()
@@ -19,5 +42,5 @@ export const usePieChartStore = defineStore('pie-chart', () => {
         items.value = items.value.filter(i => i.id !== id)
     }
 
-    return { items, addSection, editItem, deleteItem }
+    return { items, colorPresets, addSection, editItem, deleteItem }
 })
