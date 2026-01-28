@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="controls">
-      <h1>Управление Pie Chart</h1>
+    <form class="sector-form">
+      <h3 class="sector-title">Добавление сектора</h3>
       <TextInput v-model="sectorForm.label" placeholder="Label для нового сектора">
         <template #label>
           Наименование
@@ -13,10 +13,10 @@
         </template>
       </NumberInput>
       <ColorInput v-model="sectorForm.backgroundColor" :color-presets="colorPresets" />
-      <button @click="addSector">
+      <button class="btn" @click="addSector">
         Добавить сектор
       </button>
-    </div>
+    </form>
 
     <div class="chart-container">
       <SectorList :sectors="items" @delete="pieStore.deleteItem" />
@@ -76,5 +76,17 @@ const addSector = () => pieStore.addSection(sectorForm.value)
 
 .chart-container {
   flex: 1;
+}
+
+.sector-form {
+  display: flex;
+  max-width: 350px;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title {
+    font-size: 20px;
+    font-weight: 500;
+  }
 }
 </style>

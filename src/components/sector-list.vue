@@ -6,7 +6,7 @@
           @delete="handleDelete" />
       </tbody>
     </table>
-    <button class="sector-list__btn" @click="handleAdd">Добавить сектор</button>
+    <button class="btn" @click="handleAdd">Добавить сектор</button>
   </div>
 </template>
 
@@ -30,8 +30,6 @@ const handleAdd = () => emit('add')
 </script>
 
 <style lang="scss" scoped>
-@use 'sass:color';
-
 .sector-list {
   display: flex;
   flex-direction: column;
@@ -41,26 +39,6 @@ const handleAdd = () => emit('add')
   &__items {
     border-collapse: separate;
     border-spacing: 0 5px;
-  }
-
-  &__btn {
-    display: flex;
-    padding: 18px 36px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border-radius: 10px;
-    background: $color-blue;
-    border: none;
-    color: $color-white;
-    font-size: 16px;
-    line-height: 24px;
-    transition: background $animation-duration-base;
-    cursor: pointer;
-
-    &:hover {
-      background: color.adjust($color-blue, $lightness: 10%);
-    }
   }
 }
 </style>
