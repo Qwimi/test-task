@@ -1,25 +1,27 @@
 <template>
-  <div class="container">
-    <form class="sector-form">
+  <ModalPopup v-model="showModal">
+    <form class="sector-form" @submit.prevent="handleUpdate">
       <h3 class="sector-title">Добавление сектора</h3>
-      <TextInput v-model="sectorForm.label" placeholder="Label для нового сектора">
+      <TextInput v-model="sectorForm.label" placeholder="Наименование сектора">
         <template #label>
           Наименование
         </template>
       </TextInput>
-      <NumberInput v-model="sectorForm.value" placeholder="Значение(в %) для нового сектора">
+      <NumberInput v-model="sectorForm.value" placeholder="Значение сектора(0% до 100%)" :min="0" :max="100">
         <template #label>
           Значение
         </template>
       </NumberInput>
       <ColorInput v-model="sectorForm.backgroundColor" :color-presets="colorPresets" />
-      <button class="btn" @click="addSector">
-        Добавить сектор
+      <button class="btn" :disabled="isFormDisabled">
+        {{ sectorForm.id ? 'Редактировать сектор' : 'Добавить сектор' }}
       </button>
     </form>
+  </ModalPopup>
 
+  <div class="container">
     <div class="chart-container">
-      <SectorList :sectors="items" @delete="pieStore.deleteItem" />
+      <SectorList :sectors="items" @add="openModal" @edit="openModal" @delete="pieStore.deleteItem" />
 
       <PieChart :data="items" />
     </div>
@@ -27,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import PieChart from '@/components/pie-chart.vue'
 import TextInput from '@/components/text-input.vue'
 import NumberInput from '@/components/number-input.vue'
@@ -36,19 +38,36 @@ import type { PieSector } from '@/types'
 import { usePieChartStore } from '@/stores/pie-chart.store'
 import { storeToRefs } from 'pinia'
 import ColorInput from '@/components/color-input.vue'
+import ModalPopup from '@/components/modal-popup.vue'
 
 const pieStore = usePieChartStore()
 
 const { items, colorPresets } = storeToRefs(pieStore)
 
-const sectorForm = ref<PieSector>({
+
+const showModal = ref(false)
+
+const initSector = (): PieSector => ({
+  id: undefined,
   label: '',
-  value: 0,
-  backgroundColor: colorPresets.value[0]!.value
+  value: null,
+  backgroundColor: colorPresets.value[0]!.value,
 })
 
 
-const addSector = () => pieStore.addSection(sectorForm.value)
+const sectorForm = ref<PieSector>(initSector())
+const isFormDisabled = computed(() => Object.values(sectorForm.value).some(field => field === null || field === undefined || field === ''))
+
+const openModal = (sector?: PieSector) => {
+  showModal.value = true
+  console.log(sector ? { ...sector } : initSector())
+  sectorForm.value = sector ? { ...sector } : initSector()
+}
+
+const handleUpdate = () => {
+  sectorForm.value.id ? pieStore.editItem(sectorForm.value) : pieStore.addSection(sectorForm.value)
+  showModal.value = false
+}
 </script>
 
 <style lang="scss" scoped>
@@ -80,6 +99,7 @@ const addSector = () => pieStore.addSection(sectorForm.value)
 
 .sector-form {
   display: flex;
+  width: calc(100vh - 60px);
   max-width: 350px;
   flex-direction: column;
   gap: 20px;

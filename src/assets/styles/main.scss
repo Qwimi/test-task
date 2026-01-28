@@ -48,4 +48,9 @@ input::-webkit-inner-spin-button {
   &:hover {
     background: color.adjust($color-blue, $lightness: 10%);
   }
+
+  &:disabled {
+    background: $color-gray;
+    cursor: not-allowed;
+  }
 }

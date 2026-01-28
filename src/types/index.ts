@@ -13,7 +13,7 @@ export type Range<Min extends number, Max extends number> = Exclude<
 export interface PieSector {
   id?: string
   label: string
-  value: number
+  value: number | null
   backgroundColor: string | null
 }
 

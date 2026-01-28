@@ -8,8 +8,8 @@
       <slot name="prepend-icon" />
     </template>
 
-    <input type="number" v-model="inputValue" class="form-field__input" :placeholder="placeholder"
-      @input="applyClamp" />
+    <input type="text" inputmode="decimal" class="form-field__input" :value="model" :placeholder="placeholder"
+      @input="validateInput" />
 
     <template #append-icon>
       <slot name="append-icon" />
@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import FormField from './form-field.vue'
 
 const props = defineProps<{
@@ -27,31 +26,30 @@ const props = defineProps<{
   max?: number
 }>()
 
-const inputValue = ref('')
-
 const model = defineModel<number | null>()
+const NUMBER_REGEX = /^-?\d*(\.\d*)?$/
 
-watch(
-  model,
-  (val) => {
-    inputValue.value = val === null ? '' : String(val)
-  },
-  { immediate: true }
-)
+function validateInput(e: Event) {
+  const el = e.target as HTMLInputElement
+  const value = el.value
 
-function applyClamp() {
-  if (inputValue.value === '') {
+  if (!NUMBER_REGEX.test(value)) {
+    el.value = value.slice(0, -1)
+    return
+  }
+
+  if (value === '' || value === '-') {
     model.value = null
     return
   }
 
-  let num = Number(inputValue.value)
-  if (isNaN(num)) return
+  let num = Number(value)
+  if (Number.isNaN(num)) return
 
-  if (props.min !== undefined && num < props.min) num = props.min
-  if (props.max !== undefined && num > props.max) num = props.max
+  if (props.min !== undefined) num = Math.max(props.min, num)
+  if (props.max !== undefined) num = Math.min(props.max, num)
 
   model.value = num
-  inputValue.value = String(num)
+  el.value = String(num)
 }
 </script>
