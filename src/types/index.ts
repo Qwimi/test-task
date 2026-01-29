@@ -14,7 +14,7 @@ export interface PieSector {
   id?: string
   label: string
   value: number | null
-  backgroundColor: string | null
+  backgroundColor: string
 }
 
 export interface Option {

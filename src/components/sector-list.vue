@@ -34,7 +34,6 @@ const handleAdd = () => emit('add')
   display: flex;
   flex-direction: column;
   gap: 30px;
-  width: 100%;
 
   &__items {
     border-collapse: separate;

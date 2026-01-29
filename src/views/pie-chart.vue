@@ -1,25 +1,25 @@
 <template>
-  <ModalPopup v-model="showModal">
-    <form class="sector-form" @submit.prevent="handleUpdate">
-      <h3 class="sector-title">Добавление сектора</h3>
-      <TextInput v-model="sectorForm.label" placeholder="Наименование сектора">
-        <template #label>
-          Наименование
-        </template>
-      </TextInput>
-      <NumberInput v-model="sectorForm.value" placeholder="Значение сектора(0% до 100%)" :min="0" :max="100">
-        <template #label>
-          Значение
-        </template>
-      </NumberInput>
-      <ColorInput v-model="sectorForm.backgroundColor" :color-presets="colorPresets" />
-      <button class="btn" :disabled="isFormDisabled">
-        {{ sectorForm.id ? 'Редактировать сектор' : 'Добавить сектор' }}
-      </button>
-    </form>
-  </ModalPopup>
-
   <div class="container">
+    <ModalPopup v-model="showModal">
+      <form class="sector-form" @submit.prevent="handleUpdate">
+        <h3 class="sector-form__title">Добавление сектора</h3>
+        <TextInput v-model="sectorForm.label" placeholder="Наименование сектора">
+          <template #label>
+            Наименование
+          </template>
+        </TextInput>
+        <NumberInput v-model="sectorForm.value" placeholder="Значение сектора(0% до 100%)" :min="0" :max="100">
+          <template #label>
+            Значение
+          </template>
+        </NumberInput>
+        <ColorInput v-model="sectorForm.backgroundColor" :color-presets="colorPresets" />
+        <button class="btn" :disabled="isFormDisabled">
+          {{ sectorForm.id ? 'Редактировать сектор' : 'Добавить сектор' }}
+        </button>
+      </form>
+    </ModalPopup>
+    <h1 class="chart-title">Круговая диаграмма</h1>
     <div class="chart-container">
       <SectorList :sectors="items" @add="openModal" @edit="openModal" @delete="pieStore.deleteItem" />
 
@@ -48,19 +48,16 @@ const { items, colorPresets } = storeToRefs(pieStore)
 const showModal = ref(false)
 
 const initSector = (): PieSector => ({
-  id: undefined,
   label: '',
   value: null,
   backgroundColor: colorPresets.value[0]!.value,
 })
-
 
 const sectorForm = ref<PieSector>(initSector())
 const isFormDisabled = computed(() => Object.values(sectorForm.value).some(field => field === null || field === undefined || field === ''))
 
 const openModal = (sector?: PieSector) => {
   showModal.value = true
-  console.log(sector ? { ...sector } : initSector())
   sectorForm.value = sector ? { ...sector } : initSector()
 }
 
@@ -71,9 +68,17 @@ const handleUpdate = () => {
 </script>
 
 <style lang="scss" scoped>
+.chart-title {
+  color: $color-dark-gray;
+  font-size: 32px;
+  font-weight: 600;
+  padding: 0 10px 30px 10px;
+  border-bottom: 1px solid $color-light-gray;
+  margin-bottom: 40px;
+}
+
 .chart-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 20px;
 
   @media (min-width: $breakpoint-tablet) {
@@ -82,24 +87,13 @@ const handleUpdate = () => {
 
   @media (min-width: $breakpoint-desktop) {
     gap: 90px;
+    grid-template-columns: 1fr 1fr;
   }
-}
-
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  flex: 1;
-}
-
-.chart-container {
-  flex: 1;
 }
 
 .sector-form {
   display: flex;
-  width: calc(100vh - 60px);
+  width: calc(100vw - 60px);
   max-width: 350px;
   flex-direction: column;
   gap: 20px;

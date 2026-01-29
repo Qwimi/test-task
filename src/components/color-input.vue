@@ -2,8 +2,16 @@
   <div class="color-picker" :style="{ '--preview-color': color }">
     <SelectField class="color-picker__options" :options="colorList" v-model="color">
       <template #label> Цвет </template>
+      <template #option="{ option }">
+        <ColorOption :option="option" />
+      </template>
+
+      <template #value="{ option }">
+        <ColorOption :option="option" />
+      </template>
+
     </SelectField>
-    <ColorPicker v-model:pureColor="color" is-widget format="hex" picker-type="chrome" disable-history z-index="0" />
+    <ColorPicker v-model:pureColor="color" is-widget format="hex" picker-type="chrome" disable-history :z-index="0" />
   </div>
 </template>
 
@@ -11,6 +19,7 @@
 import type { ColorPreset, Option } from '@/types';
 import SelectField from './select-field.vue'
 import { computed } from 'vue';
+import ColorOption from './color-option.vue';
 
 const props = defineProps<{ colorPresets: ColorPreset[] }>()
 const color = defineModel<string | null>()
@@ -22,7 +31,7 @@ const isPresetColor = computed(() =>
 const colorList = computed(() => ([
   ...props.colorPresets,
   {
-    value: isPresetColor.value ? null : color.value,
+    value: isPresetColor.value ? '#ffffff' : color.value,
     label: 'Свой вариант'
   }
 ]) as Option[])
@@ -30,8 +39,6 @@ const colorList = computed(() => ([
 
 <style lang="scss" scoped>
 .color-picker {
-  width: 100%;
-
   &__options {
     margin-bottom: 10px;
   }
@@ -123,6 +130,8 @@ const colorList = computed(() => ([
       width: 100%;
       text-align: center;
       color: $color-gray;
+      font-size: 14px;
+      text-transform: uppercase;
     }
   }
 }

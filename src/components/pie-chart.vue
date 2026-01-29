@@ -3,7 +3,7 @@
     <canvas ref="canvasRef" class="pie-chart__canvas" />
     <ul class="pie-chart__legend">
       <li class="pie-chart__item" v-for="item in data" :key="item.label">
-        <span class="pie-chart__color" :style="{ backgroundColor: item.backgroundColor }" />
+        <div class="pie-chart__color" :style="{ backgroundColor: item.backgroundColor }"></div>
         <span class="pie-chart__label">
           {{ item.label }}
         </span>
@@ -14,12 +14,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
-import { Chart, ArcElement, Tooltip, Legend, PieController, ChartData, ChartOptions } from 'chart.js'
+import { Chart, ArcElement, Tooltip, Legend, PieController, type ChartData, type ChartOptions } from 'chart.js'
+import type { PieSector } from '@/types';
 
 Chart.register(PieController, ArcElement, Tooltip, Legend)
 
 const props = defineProps<{
-  data: { label: string; value: number; backgroundColor: string }[]
+  data: PieSector[]
 }>()
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
