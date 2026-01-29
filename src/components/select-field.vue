@@ -1,5 +1,10 @@
 <template>
-  <FormField class="select-field" :class="{ 'select-field--focus': isOpen }" ref="controlRef" @click="toggle()">
+  <FormField
+    class="select-field"
+    :class="{ 'select-field--focus': isOpen }"
+    ref="controlRef"
+    @click="toggle()"
+  >
     <template #label>
       <slot name="label" />
     </template>
@@ -22,8 +27,13 @@
 
     <Transition name="fade">
       <ul v-show="isOpen" class="select-field__dropdown">
-        <li v-for="option in options" :key="option.value" class="select-field__option"
-          :class="{ 'select-field__option--selected': option.value === modelValue }" @click.stop="select(option)">
+        <li
+          v-for="option in options"
+          :key="option.value"
+          class="select-field__option"
+          :class="{ 'select-field__option--selected': option.value === modelValue }"
+          @click.stop="select(option)"
+        >
           <slot name="option" :option="option">
             {{ option.label }}
           </slot>
@@ -33,7 +43,11 @@
 
     <template #append-icon>
       <slot name="append-icon">
-        <SvgIcon name="arrow" class="select-field__icon" :class="{ 'select-field__icon--rotated': isOpen }" />
+        <SvgIcon
+          name="arrow"
+          class="select-field__icon"
+          :class="{ 'select-field__icon--rotated': isOpen }"
+        />
       </slot>
     </template>
   </FormField>
@@ -44,7 +58,7 @@ import { ref, computed } from 'vue'
 import FormField from './form-field.vue'
 import { onClickOutside } from '@vueuse/core'
 import SvgIcon from './svg-icon.vue'
-import type { Option } from '@/types';
+import type { Option } from '@/types'
 
 const props = defineProps<{
   options: Option[]

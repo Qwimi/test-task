@@ -8,8 +8,14 @@
       <slot name="prepend-icon" />
     </template>
 
-    <input type="text" inputmode="decimal" class="form-field__input" :value="model" :placeholder="placeholder"
-      @input="validateInput" />
+    <input
+      type="text"
+      inputmode="decimal"
+      class="form-field__input"
+      :value="model"
+      :placeholder="placeholder"
+      @input="validateInput"
+    />
 
     <template #append-icon>
       <slot name="append-icon" />

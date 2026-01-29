@@ -1,12 +1,8 @@
 <template>
   <header class="container">
     <nav class="navigation">
-      <RouterLink to="/" class="navigation__link">
-        Задача 1
-      </RouterLink>
-      <RouterLink to="/pie-chart" class="navigation__link">
-        Задача 2
-      </RouterLink>
+      <RouterLink to="/" class="navigation__link"> Задача 1 </RouterLink>
+      <RouterLink to="/pie-chart" class="navigation__link"> Задача 2 </RouterLink>
     </nav>
   </header>
   <main class="page-content">
@@ -29,13 +25,13 @@
     padding: 12px 24px;
     text-decoration: none;
     color: $color-dark-gray;
-    transition: color $animation-duration-fast,
+    transition:
+      color $animation-duration-fast,
       background-color $animation-duration-fast;
-
 
     &:hover {
       color: $color-black;
-      background: rgba($color: $color-light-gray, $alpha: .3);
+      background: rgba($color: $color-light-gray, $alpha: 0.3);
     }
   }
 }

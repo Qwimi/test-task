@@ -4,14 +4,15 @@
       <form class="sector-form" @submit.prevent="handleUpdate">
         <h3 class="sector-form__title">Добавление сектора</h3>
         <TextInput v-model="sectorForm.label" placeholder="Наименование сектора">
-          <template #label>
-            Наименование
-          </template>
+          <template #label> Наименование </template>
         </TextInput>
-        <NumberInput v-model="sectorForm.value" placeholder="Значение сектора(0% до 100%)" :min="0" :max="100">
-          <template #label>
-            Значение
-          </template>
+        <NumberInput
+          v-model="sectorForm.value"
+          placeholder="Значение сектора(0% до 100%)"
+          :min="0"
+          :max="100"
+        >
+          <template #label> Значение </template>
         </NumberInput>
         <ColorInput v-model="sectorForm.backgroundColor" :color-presets="colorPresets" />
         <button class="btn" :disabled="isFormDisabled">
@@ -21,7 +22,12 @@
     </ModalPopup>
     <h1 class="chart-title">Круговая диаграмма</h1>
     <div class="chart-container">
-      <SectorList :sectors="items" @add="openModal" @edit="openModal" @delete="pieStore.deleteItem" />
+      <SectorList
+        :sectors="items"
+        @add="openModal"
+        @edit="openModal"
+        @delete="pieStore.deleteItem"
+      />
 
       <PieChart :data="items" />
     </div>
@@ -44,7 +50,6 @@ const pieStore = usePieChartStore()
 
 const { items, colorPresets } = storeToRefs(pieStore)
 
-
 const showModal = ref(false)
 
 const initSector = (): PieSector => ({
@@ -54,7 +59,11 @@ const initSector = (): PieSector => ({
 })
 
 const sectorForm = ref<PieSector>(initSector())
-const isFormDisabled = computed(() => Object.values(sectorForm.value).some(field => field === null || field === undefined || field === ''))
+const isFormDisabled = computed(() =>
+  Object.values(sectorForm.value).some(
+    (field) => field === null || field === undefined || field === '',
+  ),
+)
 
 const openModal = (sector?: PieSector) => {
   showModal.value = true
@@ -62,7 +71,11 @@ const openModal = (sector?: PieSector) => {
 }
 
 const handleUpdate = () => {
-  sectorForm.value.id ? pieStore.editItem(sectorForm.value) : pieStore.addSection(sectorForm.value)
+  if (sectorForm.value.id) {
+    pieStore.editItem(sectorForm.value)
+  } else {
+    pieStore.addSection(sectorForm.value)
+  }
   showModal.value = false
 }
 </script>

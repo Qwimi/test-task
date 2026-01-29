@@ -14,8 +14,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount } from 'vue'
-import { Chart, ArcElement, Tooltip, Legend, PieController, type ChartData, type ChartOptions } from 'chart.js'
-import type { PieSector } from '@/types';
+import {
+  Chart,
+  ArcElement,
+  Tooltip,
+  Legend,
+  PieController,
+  type ChartData,
+  type ChartOptions,
+} from 'chart.js'
+import type { PieSector } from '@/types'
 
 Chart.register(PieController, ArcElement, Tooltip, Legend)
 
@@ -38,16 +46,16 @@ onMounted(() => {
     datasets: [
       {
         data: values,
-        backgroundColor: colors
-      }
-    ]
+        backgroundColor: colors,
+      },
+    ],
   }
 
   const options: ChartOptions<'pie'> = {
     responsive: true,
     plugins: {
       legend: {
-        display: false
+        display: false,
       },
       tooltip: {
         callbacks: {
@@ -55,16 +63,16 @@ onMounted(() => {
             const label = context.label ?? ''
             const value = context.parsed ?? 0
             return `${label}: ${value}%`
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   }
 
   chartInstance = new Chart(canvasRef.value.getContext('2d')!, {
     type: 'pie',
     data: chartData,
-    options
+    options,
   })
 })
 
@@ -72,14 +80,13 @@ watch(
   () => props.data,
   (newData) => {
     if (!chartInstance) return
-    chartInstance.data.labels = newData.map(item => item.label)
-    chartInstance.data.datasets[0].data = newData.map(item => item.value)
-    chartInstance.data.datasets[0].backgroundColor = newData.map(item => item.backgroundColor)
+    chartInstance.data.labels = newData.map((item) => item.label)
+    chartInstance.data.datasets[0].data = newData.map((item) => item.value)
+    chartInstance.data.datasets[0].backgroundColor = newData.map((item) => item.backgroundColor)
     chartInstance.update()
   },
-  { deep: true }
+  { deep: true },
 )
-
 
 onBeforeUnmount(() => {
   chartInstance?.destroy()

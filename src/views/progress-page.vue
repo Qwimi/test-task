@@ -15,7 +15,7 @@ const statusOptions = [
   { label: 'В процессе(progress)', value: 'progress' },
   { label: 'Успешно(success)', value: 'success' },
   { label: 'Предупреждение(warning)', value: 'warning' },
-  { label: 'Ошибка(error)', value: 'error' }
+  { label: 'Ошибка(error)', value: 'error' },
 ]
 </script>
 
@@ -25,41 +25,40 @@ const statusOptions = [
 
     <div class="demo__controls">
       <NumberInput v-model="progressValue" :min="0" :max="100" placeholder="0–100">
-        <template #label>
-          Значение прогресса (%)
-        </template>
+        <template #label> Значение прогресса (%) </template>
       </NumberInput>
 
       <SelectField v-model="status" :options="statusOptions">
-        <template #label>
-          Статус
-        </template>
+        <template #label> Статус </template>
       </SelectField>
 
       <NumberInput v-model="sizeValue" :min="1" placeholder="от 1">
-        <template #label>
-          Размер прогресс бара
-        </template>
+        <template #label> Размер прогресс бара </template>
       </NumberInput>
 
       <NumberInput v-model="strokeValue" :min="1" placeholder="от 1">
-        <template #label>
-          Ширина границ
-        </template>
+        <template #label> Ширина границ </template>
       </NumberInput>
     </div>
 
     <div class="demo__preview">
       <div class="demo__item">
         <span class="demo__label">Default</span>
-        <ProgressCircle :value="progressValue" :size="{ height: sizeValue, strokeWidth: strokeValue }"
-          :status="status" />
+        <ProgressCircle
+          :value="progressValue"
+          :size="{ height: sizeValue, strokeWidth: strokeValue }"
+          :status="status"
+        />
       </div>
 
       <div class="demo__item">
         <span class="demo__label">Dashboard</span>
-        <ProgressCircle :value="progressValue" :size="{ height: sizeValue, strokeWidth: strokeValue }" :status="status"
-          type="dashboard" />
+        <ProgressCircle
+          :value="progressValue"
+          :size="{ height: sizeValue, strokeWidth: strokeValue }"
+          :status="status"
+          type="dashboard"
+        />
       </div>
     </div>
   </div>

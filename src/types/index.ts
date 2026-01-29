@@ -22,4 +22,4 @@ export interface Option {
   value: string
 }
 
-export interface ColorPreset extends Option {}
+export type ColorPreset = Option

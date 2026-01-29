@@ -29,8 +29,8 @@
 </template>
 
 <script setup lang="ts">
-import type { PieSector } from '@/types';
-import SvgIcon from './svg-icon.vue';
+import type { PieSector } from '@/types'
+import SvgIcon from './svg-icon.vue'
 
 const props = defineProps<{
   sector: PieSector
@@ -51,7 +51,7 @@ const handleDelete = () => emit('delete', props.sector.id)
   color: $color-dark-gray;
   font-size: 16px;
   line-height: 24px;
-  background-color: rgba($color: $color-light-gray, $alpha: .2);
+  background-color: rgba($color: $color-light-gray, $alpha: 0.2);
 
   &__td {
     padding-block: 20px;

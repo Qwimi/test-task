@@ -2,8 +2,13 @@
   <div class="sector-list">
     <table class="sector-list__items">
       <tbody>
-        <SectorItem v-for="sector in sectors" :key="sector.id" :sector="sector" @edit="handleEdit"
-          @delete="handleDelete" />
+        <SectorItem
+          v-for="sector in sectors"
+          :key="sector.id"
+          :sector="sector"
+          @edit="handleEdit"
+          @delete="handleDelete"
+        />
       </tbody>
     </table>
     <button class="btn" @click="handleAdd">Добавить сектор</button>
@@ -12,9 +17,9 @@
 
 <script setup lang="ts">
 import SectorItem from './sector-item.vue'
-import type { PieSector } from '@/types';
+import type { PieSector } from '@/types'
 
-const props = defineProps<{ sectors: PieSector[] }>()
+defineProps<{ sectors: PieSector[] }>()
 
 const emit = defineEmits<{
   edit: [PieSector]

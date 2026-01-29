@@ -9,32 +9,41 @@
       <template #value="{ option }">
         <ColorOption :option="option" />
       </template>
-
     </SelectField>
-    <ColorPicker v-model:pureColor="color" is-widget format="hex" picker-type="chrome" disable-history :z-index="0" />
+    <ColorPicker
+      v-model:pureColor="color"
+      is-widget
+      format="hex"
+      picker-type="chrome"
+      disable-history
+      :z-index="0"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ColorPreset, Option } from '@/types';
+import type { ColorPreset, Option } from '@/types'
 import SelectField from './select-field.vue'
-import { computed } from 'vue';
-import ColorOption from './color-option.vue';
+import { computed } from 'vue'
+import ColorOption from './color-option.vue'
 
 const props = defineProps<{ colorPresets: ColorPreset[] }>()
 const color = defineModel<string | null>()
 
 const isPresetColor = computed(() =>
-  props.colorPresets.some(preset => preset.value === color.value)
+  props.colorPresets.some((preset) => preset.value === color.value),
 )
 
-const colorList = computed(() => ([
-  ...props.colorPresets,
-  {
-    value: isPresetColor.value ? '#ffffff' : color.value,
-    label: 'Свой вариант'
-  }
-]) as Option[])
+const colorList = computed(
+  () =>
+    [
+      ...props.colorPresets,
+      {
+        value: isPresetColor.value ? '#ffffff' : color.value,
+        label: 'Свой вариант',
+      },
+    ] as Option[],
+)
 </script>
 
 <style lang="scss" scoped>
@@ -65,7 +74,8 @@ const colorList = computed(() => ([
       height: 16px;
       transform: translate(-8px, -8px);
       border-width: 2px;
-      filter: drop-shadow(0 4px 6px rgba(31, 41, 55, 0.1)) drop-shadow(0 2px 4px rgba(31, 41, 55, 0.06));
+      filter: drop-shadow(0 4px 6px rgba(31, 41, 55, 0.1))
+        drop-shadow(0 2px 4px rgba(31, 41, 55, 0.06));
     }
 
     // блок с отображением текущего цвета
@@ -102,10 +112,11 @@ const colorList = computed(() => ([
       height: 8px !important;
     }
 
-    .small-bar>div {
+    .small-bar > div {
       background-color: transparent;
       border: 2px solid $color-white;
-      filter: drop-shadow(0 4px 6px rgba(31, 41, 55, 0.1)) drop-shadow(0 2px 4px rgba(31, 41, 55, 0.06));
+      filter: drop-shadow(0 4px 6px rgba(31, 41, 55, 0.1))
+        drop-shadow(0 2px 4px rgba(31, 41, 55, 0.06));
     }
 
     .vc-display {
