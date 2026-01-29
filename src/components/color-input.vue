@@ -1,5 +1,5 @@
 <template>
-  <div class="color-picker" :style="{ '--preview-color': color }">
+  <div class="color-picker" :style="{ '--preview-color': color || '' }">
     <SelectField class="color-picker__options" :options="colorList" v-model="color">
       <template #label> Цвет </template>
       <template #option="{ option }">

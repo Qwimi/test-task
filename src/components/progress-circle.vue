@@ -70,7 +70,7 @@ const viewBox = computed(() => `0 0 ${props.size.height} ${props.size.height}`)
 //  умножаем dasharray на 2 на случай, если окружность не полная (тип диаграммы dashboard)
 // и у нас не появлялся второй dash
 const progressDasharray = computed(() => {
-  const progress = (dasharray.value / 100) * props.value
+  const progress = (dasharray.value / 100) * (props.value ?? 0)
   return `${progress} ${dasharray.value * 2}`
 })
 
